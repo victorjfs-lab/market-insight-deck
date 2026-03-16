@@ -18,14 +18,14 @@
     --primary: 217 91% 60%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 220 14% 12%;
+    --secondary: 220 14% 10%;
     --secondary-foreground: 210 40% 98%;
 
     --muted: 220 14% 12%;
-    --muted-foreground: 215 20% 65%;
+    --muted-foreground: 215 20% 55%;
 
-    --accent: 220 14% 15%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 68 100% 50%;
+    --accent-foreground: 220 20% 4%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
@@ -41,10 +41,9 @@
     --market-red: 0 84% 60%;
     --market-yellow: 43 96% 56%;
     --market-blue: 217 91% 60%;
-
-    /* Glows */
-    --glow-green: 0 0% 0% / 0;
-    --glow-blue: 217 91% 60% / 0.08;
+    
+    /* Lime accent from the PDF */
+    --lime: 68 100% 50%;
 
     /* Typography */
     --font-display: 'Space Grotesk', sans-serif;
@@ -69,8 +68,12 @@
 
 /* Slide section base */
 .slide-section {
-  @apply min-h-screen flex flex-col justify-center relative;
-  padding: 120px 80px;
+  @apply relative overflow-hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 100px 80px;
 }
 
 @media (max-width: 768px) {
@@ -79,15 +82,46 @@
   }
 }
 
-/* Subtle grid background */
-.grid-bg {
-  background-image: 
-    linear-gradient(hsl(220 14% 14% / 0.5) 1px, transparent 1px),
-    linear-gradient(90deg, hsl(220 14% 14% / 0.5) 1px, transparent 1px);
-  background-size: 60px 60px;
+/* Dot grid decorative pattern */
+.dot-grid {
+  --dot-size: 4px;
+  --dot-gap: 12px;
+  background-image: radial-gradient(circle, hsl(var(--lime)) 1.5px, transparent 1.5px);
+  background-size: var(--dot-gap) var(--dot-gap);
 }
 
-/* Chart glow effect */
+.dot-grid-muted {
+  --dot-size: 3px;
+  --dot-gap: 10px;
+  background-image: radial-gradient(circle, hsl(var(--muted-foreground) / 0.3) 1px, transparent 1px);
+  background-size: var(--dot-gap) var(--dot-gap);
+}
+
+/* Accent bar (white or lime horizontal bar) */
+.accent-bar {
+  width: 48px;
+  height: 5px;
+  background: hsl(var(--foreground));
+}
+
+.accent-bar-lime {
+  width: 48px;
+  height: 5px;
+  background: hsl(var(--lime));
+}
+
+/* Lime highlighted text */
+.text-highlight {
+  color: hsl(var(--lime));
+}
+
+/* Outline text effect for headlines */
+.text-outline {
+  -webkit-text-stroke: 1.5px hsl(var(--foreground) / 0.6);
+  color: transparent;
+}
+
+/* Chart glow effects */
 .line-glow-green {
   filter: drop-shadow(0 0 6px hsl(160 84% 39% / 0.4));
 }
@@ -101,14 +135,21 @@
   filter: drop-shadow(0 0 6px hsl(217 91% 60% / 0.3));
 }
 
+/* Background image cover */
+.bg-slide {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 ::-webkit-scrollbar-track {
   background: hsl(220 20% 4%);
 }
 ::-webkit-scrollbar-thumb {
   background: hsl(220 14% 18%);
-  border-radius: 3px;
+  border-radius: 2px;
 }
