@@ -1,47 +1,50 @@
 import AnimatedSection from "./AnimatedSection";
+import { DotGrid, AccentBar, SlideContainer } from "./SlideElements";
 
 const cards = [
   {
+    number: "01",
     title: "Confirmar tendência limpa",
     description: "O indicador separa movimentos de qualidade do ruído. Só opere quando a leitura estiver clara.",
     visual: (
-      <svg viewBox="0 0 200 80" className="w-full h-20">
-        <path d="M 10 60 Q 50 55 80 40 T 150 15 L 190 10" fill="none" stroke="hsl(160 84% 39%)" strokeWidth="2.5" className="line-glow-green" />
-        <line x1={10} y1={65} x2={190} y2={65} stroke="hsl(220 14% 18%)" strokeWidth="1" />
-        <circle cx={150} cy={15} r="3" fill="hsl(160 84% 39%)" />
-        {/* Arrow up */}
-        <path d="M 160 30 L 165 20 L 170 30" fill="none" stroke="hsl(160 84% 39%)" strokeWidth="1.5" />
+      <svg viewBox="0 0 220 90" className="w-full h-24">
+        <line x1={10} y1={75} x2={210} y2={75} stroke="hsl(220 14% 15%)" strokeWidth="1" />
+        <path d="M 15 65 Q 55 60 85 45 T 160 18 L 205 12" fill="none" stroke="hsl(160 84% 39%)" strokeWidth="2.5" className="line-glow-green" />
+        <circle cx={160} cy={18} r="4" fill="none" stroke="hsl(68 100% 50%)" strokeWidth="1.5" />
+        <line x1={160} y1={22} x2={160} y2={70} stroke="hsl(68 100% 50% / 0.3)" strokeWidth="1" strokeDasharray="3 3" />
       </svg>
     ),
   },
   {
+    number: "02",
     title: "Evitar ruído lateral",
     description: "Mercados laterais destroem contas de iniciantes. O indicador identifica quando não há qualidade.",
     visual: (
-      <svg viewBox="0 0 200 80" className="w-full h-20">
-        <path d="M 10 40 L 30 38 L 50 42 L 70 39 L 90 41 L 110 38 L 130 42 L 150 39 L 170 41 L 190 40" fill="none" stroke="hsl(210 40% 60%)" strokeWidth="2" />
-        <line x1={10} y1={65} x2={190} y2={65} stroke="hsl(220 14% 18%)" strokeWidth="1" />
+      <svg viewBox="0 0 220 90" className="w-full h-24">
+        <line x1={10} y1={75} x2={210} y2={75} stroke="hsl(220 14% 15%)" strokeWidth="1" />
+        <path d="M 15 45 L 35 42 L 55 47 L 75 43 L 95 46 L 115 42 L 135 47 L 155 43 L 175 46 L 195 44" fill="none" stroke="hsl(215 20% 55%)" strokeWidth="2" />
         {/* X marks */}
-        <g stroke="hsl(0 84% 60%)" strokeWidth="1.5">
-          <line x1={55} y1={50} x2={65} y2={60} /><line x1={65} y1={50} x2={55} y2={60} />
-          <line x1={115} y1={50} x2={125} y2={60} /><line x1={125} y1={50} x2={115} y2={60} />
+        <g stroke="hsl(0 84% 60%)" strokeWidth="2">
+          <line x1={60} y1={55} x2={70} y2={65} /><line x1={70} y1={55} x2={60} y2={65} />
+          <line x1={130} y1={55} x2={140} y2={65} /><line x1={140} y1={55} x2={130} y2={65} />
         </g>
       </svg>
     ),
   },
   {
+    number: "03",
     title: "Melhorar timing de entrada e saída",
     description: "Combine leitura de preço com o indicador para entrar no momento certo e sair com disciplina.",
     visual: (
-      <svg viewBox="0 0 200 80" className="w-full h-20">
-        <path d="M 10 60 Q 40 58 60 45 T 120 20 L 150 25 L 190 35" fill="none" stroke="hsl(217 91% 60%)" strokeWidth="2" className="line-glow-blue" />
-        <line x1={10} y1={65} x2={190} y2={65} stroke="hsl(220 14% 18%)" strokeWidth="1" />
-        {/* Entry marker */}
-        <circle cx={60} cy={45} r="4" fill="none" stroke="hsl(160 84% 39%)" strokeWidth="1.5" />
-        <text x={60} y={72} textAnchor="middle" fill="hsl(160 84% 39%)" fontSize="8" fontFamily="Inter">entrada</text>
-        {/* Exit marker */}
-        <circle cx={150} cy={25} r="4" fill="none" stroke="hsl(43 96% 56%)" strokeWidth="1.5" />
-        <text x={150} y={72} textAnchor="middle" fill="hsl(43 96% 56%)" fontSize="8" fontFamily="Inter">saída</text>
+      <svg viewBox="0 0 220 90" className="w-full h-24">
+        <line x1={10} y1={75} x2={210} y2={75} stroke="hsl(220 14% 15%)" strokeWidth="1" />
+        <path d="M 15 65 Q 45 60 65 48 T 130 22 L 165 28 L 200 38" fill="none" stroke="hsl(217 91% 60%)" strokeWidth="2" className="line-glow-blue" />
+        {/* Entry */}
+        <circle cx={65} cy={48} r="5" fill="none" stroke="hsl(68 100% 50%)" strokeWidth="2" />
+        <text x={65} y={85} textAnchor="middle" fill="hsl(68 100% 50%)" fontSize="9" fontFamily="DM Sans" fontWeight="600">ENTRADA</text>
+        {/* Exit */}
+        <circle cx={165} cy={28} r="5" fill="none" stroke="hsl(43 96% 56%)" strokeWidth="2" />
+        <text x={165} y={85} textAnchor="middle" fill="hsl(43 96% 56%)" fontSize="9" fontFamily="DM Sans" fontWeight="600">SAÍDA</text>
       </svg>
     ),
   },
@@ -49,29 +52,28 @@ const cards = [
 
 export default function SlideRole() {
   return (
-    <section className="slide-section">
-      <div className="max-w-[1400px] mx-auto w-full">
-        <AnimatedSection>
-          <p className="font-body text-sm tracking-[0.3em] uppercase text-muted-foreground mb-6">
-            04 · Função
-          </p>
-          <h2 className="font-display text-5xl md:text-6xl lg:text-7xl text-foreground leading-[0.95] mb-6 max-w-3xl">
-            O papel do indicador.
-          </h2>
-        </AnimatedSection>
+    <SlideContainer>
+      <DotGrid position="top-right" size="lg" />
 
-        <AnimatedSection delay={0.3} className="mt-16">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {cards.map((card) => (
-              <div key={card.title} className="border border-border bg-secondary/30 p-8 flex flex-col">
-                <div className="mb-6">{card.visual}</div>
-                <h3 className="font-display text-2xl text-foreground mb-3">{card.title}</h3>
-                <p className="font-body text-sm text-muted-foreground leading-relaxed font-medium">{card.description}</p>
-              </div>
-            ))}
-          </div>
-        </AnimatedSection>
-      </div>
-    </section>
+      <AnimatedSection>
+        <AccentBar variant="lime" />
+        <h2 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-foreground leading-[0.95] mt-8 mb-4 max-w-3xl">
+          O papel do <span className="text-highlight">indicador.</span>
+        </h2>
+      </AnimatedSection>
+
+      <AnimatedSection delay={0.3} className="mt-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {cards.map((card) => (
+            <div key={card.number} className="relative border border-border/30 bg-secondary/30 p-8 group">
+              <span className="font-display text-5xl font-bold text-lime/10 absolute top-4 right-6">{card.number}</span>
+              <div className="mb-6">{card.visual}</div>
+              <h3 className="font-display text-xl font-bold text-foreground mb-3">{card.title}</h3>
+              <p className="font-body text-sm text-muted-foreground leading-relaxed">{card.description}</p>
+            </div>
+          ))}
+        </div>
+      </AnimatedSection>
+    </SlideContainer>
   );
 }

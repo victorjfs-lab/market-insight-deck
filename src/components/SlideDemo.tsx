@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import AnimatedSection from "./AnimatedSection";
+import { AccentBar, SlideContainer } from "./SlideElements";
 
 interface DemoState {
   ativo: string;
@@ -21,16 +22,14 @@ const defaultState: DemoState = {
 
 function computeIndicator(closes: number[], period: number) {
   if (closes.length < 2) return closes.map(() => 50);
-  const result: number[] = [];
-  for (let i = 0; i < closes.length; i++) {
+  return closes.map((_, i) => {
     const start = Math.max(0, i - period + 1);
     const slice = closes.slice(start, i + 1);
     const min = Math.min(...slice);
     const max = Math.max(...slice);
     const range = max - min || 1;
-    result.push(((closes[i] - min) / range) * 100);
-  }
-  return result;
+    return ((closes[i] - min) / range) * 100;
+  });
 }
 
 function movingAvg(data: number[], window: number) {
@@ -44,16 +43,13 @@ function movingAvg(data: number[], window: number) {
 export default function SlideDemo() {
   const [state, setState] = useState<DemoState>(defaultState);
 
-  const closes = useMemo(() => {
-    return state.serie.split(",").map((s) => parseFloat(s.trim())).filter((n) => !isNaN(n));
-  }, [state.serie]);
-
+  const closes = useMemo(() => state.serie.split(",").map((s) => parseFloat(s.trim())).filter((n) => !isNaN(n)), [state.serie]);
   const indicator = useMemo(() => computeIndicator(closes, state.periodo), [closes, state.periodo]);
   const avg = useMemo(() => movingAvg(indicator, state.media), [indicator, state.media]);
   const levels = useMemo(() => state.niveis.split(",").map((s) => parseFloat(s.trim())).filter((n) => !isNaN(n)), [state.niveis]);
 
   const chartW = 600;
-  const chartH = 180;
+  const chartH = 160;
   const toX = (i: number) => (i / Math.max(indicator.length - 1, 1)) * chartW;
   const toY = (v: number) => chartH - (v / 100) * chartH;
 
@@ -64,75 +60,67 @@ export default function SlideDemo() {
     setState((prev) => ({ ...prev, [key]: value }));
   };
 
-  const inputClass = "bg-secondary border border-border text-foreground font-body text-xs px-3 py-2 w-full focus:outline-none focus:border-primary/50";
+  const inputClass = "bg-background border border-border/40 text-foreground font-body text-xs px-3 py-2 w-full focus:outline-none focus:border-lime/40 transition-colors";
 
   return (
-    <section className="slide-section" style={{ minHeight: "auto", paddingTop: "80px", paddingBottom: "120px" }}>
-      <div className="max-w-[1000px] mx-auto w-full">
-        <AnimatedSection>
-          <p className="font-body text-sm tracking-[0.3em] uppercase text-muted-foreground mb-6">
-            05 · Laboratório
-          </p>
-          <h2 className="font-display text-4xl md:text-5xl text-foreground leading-[0.95] mb-4">
-            Demo opcional
-          </h2>
-          <p className="font-body text-sm text-muted-foreground max-w-xl font-medium">
-            Experimente com seus próprios dados. Ajuste os parâmetros e observe como o indicador responde.
-          </p>
-        </AnimatedSection>
+    <SlideContainer className="!min-h-0" >
+      <AnimatedSection>
+        <AccentBar />
+        <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-[0.95] mt-6 mb-2">
+          Demo opcional
+        </h2>
+        <p className="font-body text-sm text-muted-foreground max-w-lg">
+          Experimente com seus próprios dados. Ajuste os parâmetros e observe o indicador.
+        </p>
+      </AnimatedSection>
 
-        <AnimatedSection delay={0.2} className="mt-10">
-          <div className="border border-border bg-secondary/20 p-6">
-            {/* Inputs row */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-              <div>
-                <label className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground block mb-1">Ativo</label>
-                <input className={inputClass} value={state.ativo} onChange={(e) => update("ativo", e.target.value)} />
-              </div>
-              <div>
-                <label className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground block mb-1">Timeframe</label>
-                <input className={inputClass} value={state.timeframe} onChange={(e) => update("timeframe", e.target.value)} />
-              </div>
-              <div>
-                <label className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground block mb-1">Período</label>
-                <input className={inputClass} type="number" value={state.periodo} onChange={(e) => update("periodo", parseInt(e.target.value) || 1)} />
-              </div>
-              <div>
-                <label className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground block mb-1">Média</label>
-                <input className={inputClass} type="number" value={state.media} onChange={(e) => update("media", parseInt(e.target.value) || 1)} />
-              </div>
+      <AnimatedSection delay={0.2} className="mt-8">
+        <div className="border border-border/30 bg-secondary/20 p-6 max-w-[900px]">
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-3 mb-5">
+            <div>
+              <label className="font-body text-[9px] tracking-[0.2em] uppercase text-muted-foreground block mb-1">Ativo</label>
+              <input className={inputClass} value={state.ativo} onChange={(e) => update("ativo", e.target.value)} />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-              <div>
-                <label className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground block mb-1">Níveis (separados por vírgula)</label>
-                <input className={inputClass} value={state.niveis} onChange={(e) => update("niveis", e.target.value)} />
-              </div>
-              <div>
-                <label className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground block mb-1">Série de fechamentos</label>
-                <input className={inputClass} value={state.serie} onChange={(e) => update("serie", e.target.value)} />
-              </div>
+            <div>
+              <label className="font-body text-[9px] tracking-[0.2em] uppercase text-muted-foreground block mb-1">Timeframe</label>
+              <input className={inputClass} value={state.timeframe} onChange={(e) => update("timeframe", e.target.value)} />
             </div>
-
-            {/* Chart */}
-            <svg viewBox={`-30 -10 ${chartW + 60} ${chartH + 30}`} className="w-full">
-              {levels.map((l) => (
-                <g key={l}>
-                  <line x1={0} y1={toY(l)} x2={chartW} y2={toY(l)} stroke="hsl(220 14% 16%)" strokeWidth="1" strokeDasharray="4 4" />
-                  <text x={-8} y={toY(l) + 4} textAnchor="end" fill="hsl(215 20% 40%)" fontSize="9" fontFamily="Inter">{l}</text>
-                </g>
-              ))}
-              <path d={avgPath} fill="none" stroke="hsl(43 96% 56%)" strokeWidth="1.5" className="line-glow-yellow" />
-              <path d={indicatorPath} fill="none" stroke="hsl(210 40% 92%)" strokeWidth="2" />
-            </svg>
-
-            <div className="flex items-center gap-4 mt-4">
-              <span className="font-body text-[10px] tracking-[0.15em] uppercase text-muted-foreground">{state.ativo}</span>
-              <span className="font-body text-[10px] tracking-[0.15em] uppercase text-muted-foreground">{state.timeframe}</span>
-              <span className="font-body text-[10px] tracking-[0.15em] uppercase text-muted-foreground">P{state.periodo}</span>
+            <div>
+              <label className="font-body text-[9px] tracking-[0.2em] uppercase text-muted-foreground block mb-1">Período</label>
+              <input className={inputClass} type="number" value={state.periodo} onChange={(e) => update("periodo", parseInt(e.target.value) || 1)} />
+            </div>
+            <div>
+              <label className="font-body text-[9px] tracking-[0.2em] uppercase text-muted-foreground block mb-1">Média</label>
+              <input className={inputClass} type="number" value={state.media} onChange={(e) => update("media", parseInt(e.target.value) || 1)} />
+            </div>
+            <div className="col-span-2">
+              <label className="font-body text-[9px] tracking-[0.2em] uppercase text-muted-foreground block mb-1">Níveis</label>
+              <input className={inputClass} value={state.niveis} onChange={(e) => update("niveis", e.target.value)} />
             </div>
           </div>
-        </AnimatedSection>
-      </div>
-    </section>
+          <div className="mb-5">
+            <label className="font-body text-[9px] tracking-[0.2em] uppercase text-muted-foreground block mb-1">Série de fechamentos</label>
+            <input className={inputClass} value={state.serie} onChange={(e) => update("serie", e.target.value)} />
+          </div>
+
+          <svg viewBox={`-25 -5 ${chartW + 50} ${chartH + 20}`} className="w-full">
+            {levels.map((l) => (
+              <g key={l}>
+                <line x1={0} y1={toY(l)} x2={chartW} y2={toY(l)} stroke="hsl(220 14% 14%)" strokeWidth="1" strokeDasharray="4 4" />
+                <text x={-6} y={toY(l) + 3} textAnchor="end" fill="hsl(215 20% 35%)" fontSize="9" fontFamily="DM Sans">{l}</text>
+              </g>
+            ))}
+            <path d={avgPath} fill="none" stroke="hsl(43 96% 56%)" strokeWidth="1.5" className="line-glow-yellow" />
+            <path d={indicatorPath} fill="none" stroke="hsl(210 40% 92%)" strokeWidth="2" />
+          </svg>
+
+          <div className="flex items-center gap-4 mt-3">
+            <span className="font-display text-xs tracking-[0.15em] uppercase text-muted-foreground font-bold">{state.ativo}</span>
+            <span className="font-body text-xs text-muted-foreground">{state.timeframe}</span>
+            <span className="font-body text-xs text-muted-foreground">P{state.periodo}</span>
+          </div>
+        </div>
+      </AnimatedSection>
+    </SlideContainer>
   );
 }
