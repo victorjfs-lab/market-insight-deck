@@ -57,6 +57,7 @@ export default {
           yellow: "hsl(var(--market-yellow))",
           blue: "hsl(var(--market-blue))",
         },
+        lime: "hsl(var(--lime))",
       },
       borderRadius: {
         lg: "var(--radius)",
