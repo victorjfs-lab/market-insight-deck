@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,48 +6,87 @@
 
 @layer base {
   :root {
-    --background: 220 20% 4%;
-    --foreground: 210 40% 98%;
+    --background: 40 25% 97%;
+    --foreground: 210 20% 16%;
 
-    --card: 220 18% 7%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 210 20% 16%;
 
-    --popover: 220 18% 7%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 20% 16%;
 
-    --primary: 217 91% 60%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 195 45% 28%;
+    --primary-foreground: 40 25% 97%;
 
-    --secondary: 220 14% 10%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 35 30% 90%;
+    --secondary-foreground: 210 20% 16%;
 
-    --muted: 220 14% 12%;
-    --muted-foreground: 215 20% 55%;
+    --muted: 35 15% 93%;
+    --muted-foreground: 210 10% 50%;
 
-    --accent: 68 100% 50%;
-    --accent-foreground: 220 20% 4%;
+    --accent: 152 50% 42%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 220 14% 14%;
-    --input: 220 14% 14%;
-    --ring: 217 91% 60%;
+    --border: 35 15% 88%;
+    --input: 35 15% 88%;
+    --ring: 195 45% 28%;
 
-    --radius: 0.25rem;
+    --radius: 0.75rem;
 
-    /* Market colors */
-    --market-green: 160 84% 39%;
-    --market-red: 0 84% 60%;
-    --market-yellow: 43 96% 56%;
-    --market-blue: 217 91% 60%;
-    
-    /* Lime accent from the PDF */
-    --lime: 68 100% 50%;
+    --whatsapp: 142 70% 45%;
+    --whatsapp-foreground: 0 0% 100%;
 
-    /* Typography */
-    --font-display: 'Space Grotesk', sans-serif;
-    --font-body: 'DM Sans', sans-serif;
+    --stage-novo: 210 80% 55%;
+    --stage-contato: 195 60% 45%;
+    --stage-espera: 35 80% 55%;
+    --stage-acompanhamento: 280 50% 55%;
+    --stage-proposta: 152 50% 42%;
+    --stage-fechado: 152 70% 35%;
+    --stage-perdido: 0 60% 50%;
+
+    --sidebar-background: 195 50% 22%;
+    --sidebar-foreground: 195 15% 85%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 195 50% 22%;
+    --sidebar-accent: 195 45% 28%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 195 40% 30%;
+    --sidebar-ring: 195 60% 50%;
+    --sidebar-muted: 195 20% 60%;
+  }
+
+  .dark {
+    --background: 210 20% 10%;
+    --foreground: 40 15% 90%;
+    --card: 210 18% 14%;
+    --card-foreground: 40 15% 90%;
+    --popover: 210 18% 14%;
+    --popover-foreground: 40 15% 90%;
+    --primary: 195 50% 50%;
+    --primary-foreground: 210 20% 10%;
+    --secondary: 210 15% 20%;
+    --secondary-foreground: 40 15% 90%;
+    --muted: 210 15% 18%;
+    --muted-foreground: 210 10% 55%;
+    --accent: 152 50% 42%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 15% 22%;
+    --input: 210 15% 22%;
+    --ring: 195 50% 50%;
+    --sidebar-background: 210 25% 8%;
+    --sidebar-foreground: 210 10% 75%;
+    --sidebar-primary: 195 50% 50%;
+    --sidebar-primary-foreground: 210 25% 8%;
+    --sidebar-accent: 210 20% 15%;
+    --sidebar-accent-foreground: 210 10% 85%;
+    --sidebar-border: 210 15% 18%;
+    --sidebar-ring: 195 50% 50%;
+    --sidebar-muted: 210 10% 45%;
   }
 }
 
@@ -57,99 +96,16 @@
   }
 
   body {
-    @apply bg-background text-foreground;
-    font-family: var(--font-body);
-  }
-
-  h1, h2, h3, h4 {
-    font-family: var(--font-display);
+    @apply bg-background text-foreground font-sans antialiased;
   }
 }
 
-/* Slide section base */
-.slide-section {
-  @apply relative overflow-hidden;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 100px 80px;
-}
-
-@media (max-width: 768px) {
-  .slide-section {
-    padding: 60px 24px;
+@layer utilities {
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-sm border border-border/50 shadow-sm;
   }
-}
 
-/* Dot grid decorative pattern */
-.dot-grid {
-  --dot-size: 4px;
-  --dot-gap: 12px;
-  background-image: radial-gradient(circle, hsl(var(--lime)) 1.5px, transparent 1.5px);
-  background-size: var(--dot-gap) var(--dot-gap);
-}
-
-.dot-grid-muted {
-  --dot-size: 3px;
-  --dot-gap: 10px;
-  background-image: radial-gradient(circle, hsl(var(--muted-foreground) / 0.3) 1px, transparent 1px);
-  background-size: var(--dot-gap) var(--dot-gap);
-}
-
-/* Accent bar (white or lime horizontal bar) */
-.accent-bar {
-  width: 48px;
-  height: 5px;
-  background: hsl(var(--foreground));
-}
-
-.accent-bar-lime {
-  width: 48px;
-  height: 5px;
-  background: hsl(var(--lime));
-}
-
-/* Lime highlighted text */
-.text-highlight {
-  color: hsl(var(--lime));
-}
-
-/* Outline text effect for headlines */
-.text-outline {
-  -webkit-text-stroke: 1.5px hsl(var(--foreground) / 0.6);
-  color: transparent;
-}
-
-/* Chart glow effects */
-.line-glow-green {
-  filter: drop-shadow(0 0 6px hsl(160 84% 39% / 0.4));
-}
-.line-glow-red {
-  filter: drop-shadow(0 0 6px hsl(0 84% 60% / 0.4));
-}
-.line-glow-yellow {
-  filter: drop-shadow(0 0 6px hsl(43 96% 56% / 0.3));
-}
-.line-glow-blue {
-  filter: drop-shadow(0 0 6px hsl(217 91% 60% / 0.3));
-}
-
-/* Background image cover */
-.bg-slide {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 4px;
-}
-::-webkit-scrollbar-track {
-  background: hsl(220 20% 4%);
-}
-::-webkit-scrollbar-thumb {
-  background: hsl(220 14% 18%);
-  border-radius: 2px;
+  .stage-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
 }
